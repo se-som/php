@@ -1,0 +1,115 @@
+README
+
+   This distribution contains a sample code and client library written in PHP.
+   The sample code uses the client library to retrieve reports with the
+   Google Apps Reporting API.
+
+REQUIREMENTS
+
+   This library and sample code uses the following software.
+   You may need to install these libraries or packages to run this sample code.
+
+    *   PHP v4.3.0 or later
+    *   libcurl v7.9.0 or later. libcurl allows you to send XML over HTTPS
+        using server-to-server HTTP POST requests. Learn more about libcurl at
+        http://us2.php.net/curl/.
+
+SUPPORT
+
+   Google does not offer any support for this sample code. You can find answers
+   by asking the Google group
+   http://groups.google.com/group/google-apps-apis/ or by checking the
+   Google Apps Help Center.
+
+
+THE PHP CLIENT LIBRARY
+
+   common.php  - contains a common function that uses libcurl to send HTTP
+                 requests
+   auth.php    - contains the function to generate and process the XML requests
+                 to obtain a token
+   report.php  - contains the function to generate and process the XML requests
+                 for different kinds of reports
+
+
+THE PHP SAMPLE CODE
+
+   reportingdemo.php    - contains demo code of a sample customized reporting
+                          panel.
+   navigation.php       - contains functions to display the navigational menu
+                          of the sample reporting panel
+
+
+ADDITIONAL TESTING
+
+  The following code can be used to test the reporting API via command line.
+
+  #!/usr/bin/php4 -q
+
+  <?php
+
+  /**
+   * Copyright (C) 2007 Google Inc.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *     http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  require_once("auth.php");
+  require_once("report.php");
+
+  /* Example user name, alias name and mailing list name for the demo. */
+  $domain = "my-domain-example";
+  $reportdate = "yyyy-mm-dd";
+
+  /* Get an administrator token. */
+  print "Attempting to get token...\n";
+  $token = GetAuthToken("REPLACE WITH ADMIN EMAIL",
+    "REPLACE WITH ADMIN PASSWORD", "", "");
+  print "Obtained token $token\n\n";
+
+  /* Retrieve Accounts Report. */
+  print "Retrieving Accounts Report for " . $domain  . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "accounts", "Accounts")
+    . "\n";
+
+  /* Retrieve Activity Report. */
+  print "Retrieving Activity Report for " . $domain . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "activity", "Activity")
+    . "\n";
+
+  /* Retrieve Disk Space Report. */
+  print "Retrieving Disk Space Report for " . $domain . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "disk_space",
+    "Disk Space") . "\n";
+
+  /* Retrieve Email Clients Report. */
+  print "Retrieve Email Clients Report for " . $domain . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "email_clients",
+    "Email Clients") . "\n";
+
+  /* Retrieve Quota Limit Report. */
+  print "Retrieving Quota Limit Report for " . $domain . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "quota_limit_accounts",
+    "Quota Limit") . "\n";
+
+  /* Retrieve Summary Report. */
+  print "Retrieving Summary Report for" . $domain . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "summary", "Summary")
+    . "\n";
+
+  /* Retrieve Suspended Accounts Report. */
+  print "Retrieving Suspended Accounts Report '" . $domain . "\n";
+  print RetrieveReport($token, $domain, $reportdate, "suspended_accounts",
+    "Suspended Accounts") . "\n";
+
+  ?>
